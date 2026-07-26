@@ -8,7 +8,10 @@ split, and augmented data ready for a model. It reflects the actual implementati
 blood-smear cell images, roughly half *parasitized* and half *uninfected*
 (`label 0 = parasitized`, `label 1 = uninfected`).
 
-The entry point `__main__.py` runs the stages below in order.
+The stages below are orchestrated by `prepare_data()` in `data/pipeline.py`, which
+returns ready-to-use `(train, val, test)` splits. The app entry point (`__main__.py`)
+calls it; `data/__main__.py` runs the same pipeline standalone for testing
+(`python -m anomaly_detection.data`).
 
 ## Load — `data/load.py`
 
@@ -55,6 +58,23 @@ evaluation stays honest. Two augmentation styles are implemented:
   performs on-the-fly random flips, brightness, and contrast changes. Because the
   transforms are random and re-applied every pass over the data, the model effectively
   sees fresh variations of each image without storing extra copies.
+
+## Orchestration — `data/pipeline.py`
+
+`prepare_data(batch_size, malaria_builder=None)` ties the stages together: it loads
+and downloads the dataset (if a builder isn't passed in), splits it, preprocesses
+every split, augments the training set, and returns `(train, val, test)`. Keeping
+this in a reusable function means both the app and the standalone data runner share
+the exact same pipeline.
+
+It is exposed as the data package's public API, so other code (e.g. the modeling
+phase) can import it directly:
+
+```python
+from anomaly_detection.data import prepare_data
+
+train, val, test = prepare_data(batch_size)
+```
 
 ## Configuration — `config.py`
 

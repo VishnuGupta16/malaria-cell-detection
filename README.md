@@ -16,9 +16,11 @@ anomaly-detection-in-malaria-images/
 ├── src/
 │   └── anomaly_detection/
 │       ├── __init__.py             # suppresses noisy TensorFlow logs
-│       ├── __main__.py             # entry point — runs the pipeline in order
+│       ├── __main__.py             # app entry point — calls prepare_data()
 │       ├── config.py               # paths, split ratios, BATCH_SIZE, VISUALIZE
 │       └── data/
+│           ├── __main__.py         # run the data pipeline standalone
+│           ├── pipeline.py         # prepare_data() — orchestrates the steps
 │           ├── load.py             # load the dataset
 │           ├── visualize.py        # show sample images
 │           ├── preprocess.py       # resize / normalize
@@ -35,7 +37,7 @@ Developed and tested on:
 - **Python:** 3.9
 - **Virtual environment:** `venv` (see setup below)
 
-Other platforms should work too, as long as the dependencies in `requirement.txt`
+Other platforms should work too, as long as the dependencies in `requirements.txt`
 install cleanly.
 
 ## Setup
@@ -62,6 +64,13 @@ Or as a single line:
 
 ```bash
 PYTHONPATH=src python3 -m anomaly_detection
+```
+
+To run **only the data pipeline** (load → split → preprocess → augment) for
+standalone testing, without the rest of the app:
+
+```bash
+PYTHONPATH=src python3 -m anomaly_detection.data
 ```
 
 > `PYTHONPATH=src` tells Python to also search the `src/` folder for packages, which
