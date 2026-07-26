@@ -10,14 +10,14 @@ are ready for a model.
 ```
 anomaly-detection-in-malaria-images/
 ├── datasets/                       # downloaded dataset (created on first run)
-├── requirement.txt                 # Python dependencies
+├── requirements.txt                # Python dependencies (pinned lockfile)
 ├── tasks/
 │   └── PREPROCESSING.md            # full pipeline reference (all steps in one doc)
 ├── src/
 │   └── anomaly_detection/
 │       ├── __init__.py             # suppresses noisy TensorFlow logs
 │       ├── __main__.py             # entry point — runs the pipeline in order
-│       ├── config.py               # paths, split ratios, VISUALIZE flag
+│       ├── config.py               # paths, split ratios, BATCH_SIZE, VISUALIZE
 │       └── data/
 │           ├── load.py             # load the dataset
 │           ├── visualize.py        # show sample images
@@ -81,5 +81,12 @@ Edit `src/anomaly_detection/config.py`:
 
 - `VISUALIZE` — set `True` to pop up the sample / preprocessing / augmentation image
   windows; set `False` to run the pipeline without any plots.
+- `BATCH_SIZE` — how many images to process; `0` uses the full dataset, a positive
+  number works on a smaller subset to run faster.
 - `TRAIN_SET_SIZE`, `VAL_SET_SIZE`, `TEST_SIZE` — the split ratios (default 70/15/15).
 - `DATA_DIR` — absolute path to the `datasets/` folder (computed automatically).
+
+## Source
+
+Based on the Educative project
+[**Anomaly Detection in Medical Images (Python, TF & PyTorch)**](https://www.educative.io/projects/anomaly-detection-in-medical-images-python-tf-and-pytorch).
