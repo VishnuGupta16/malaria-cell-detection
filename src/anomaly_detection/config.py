@@ -15,3 +15,7 @@ BATCH_SIZE = 0
 TRAIN_SET_SIZE = 0.7 # Relative size of the training set
 VAL_SET_SIZE = 0.15  # Relative size of the validation set
 TEST_SIZE = 0.15     # Relative size of the test set
+
+IMAZE_SIZE = [64, 64] # 64*64 pixel 
+MODEL_INPUT_SHAPE = (64 , 64, 3) # 64*64 pixel and 3 colour RBG
+CLASSES = 2

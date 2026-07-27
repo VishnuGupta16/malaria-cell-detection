@@ -2,6 +2,8 @@ import cv2
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
+from ..config import IMAZE_SIZE
+
 
 def preprocess_and_visualize(malaria_builder, size):
     dataset = malaria_builder.as_dataset(split="train")
@@ -12,7 +14,7 @@ def preprocess_and_visualize(malaria_builder, size):
     row = 0
     for image_tf in dataset.take(size):
         image = image_tf["image"]
-        image_resized = tf.image.resize(image, [64, 64]).numpy()
+        image_resized = tf.image.resize(image, IMAZE_SIZE).numpy()
         image_gray = cv2.cvtColor(image_resized, cv2.COLOR_RGB2GRAY)
         image_normalized = image_gray/255.0
         image_blur = cv2.GaussianBlur(image_normalized, (5,5), 0)
@@ -31,7 +33,7 @@ def preprocess_and_visualize(malaria_builder, size):
 def preprocess_image_dataset(dataset):
     image = dataset['image']
     label = dataset['label']
-    image_resized = tf.image.resize(image, [64, 64])
+    image_resized = tf.image.resize(image, IMAZE_SIZE)
     image_normalized = image_resized/255.0
     return {'image': image_normalized, 'label': label}
 

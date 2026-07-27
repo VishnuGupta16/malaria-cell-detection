@@ -1,4 +1,5 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from ..config import IMAZE_SIZE
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -32,7 +33,7 @@ def augment(datasets, batch_size=0, visualize=False):
             vertical_flip=True,                     # randomly mirror the image top-to-bottom
         )
         single_image = next(iter(datasets.take(1)))['image']
-        single_image = tf.image.resize(single_image, [64, 64])
+        single_image = tf.image.resize(single_image, IMAZE_SIZE)
 
        # aug_iter = data_gen.flow([single_image]) //causing exception
 
